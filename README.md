@@ -12,5 +12,7 @@ L’objectif de ce projet est de concevoir et développer une application web in
 **DOM**
 **getAttribute() vs setAttribute**
 **Ensembles des événements en javaScript**
+**Comment écrire des commits en github**
+
 
 

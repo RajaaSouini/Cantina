@@ -1,17 +1,50 @@
 # Cantina
 L’objectif de ce projet est de concevoir et développer une application web interactive de gestion du menu de la cantine de YouCode, permettant au responsable de planifier les repas hebdomadaires à partir d'une réserve de recettes tout en respectant un plafond budgétaire de 50 DH par jour. 
 
+
+# Lien
+
+**github**
+https://github.com/RajaaSouini/Cantina.git
+
+
+**deployement vercel**
+https://cantina-ycode.vercel.app/
+
+
+**planification github**
+https://github.com/RajaaSouini/Cantina.git
+
+
+
 ## Header 
-logo du projet , avec boutton ajouter repas
+logo du projet , avec boutton ajouter repas qui va afficher un popup 
+formulaire dans lequel on peut ajouter un repas .
 
 ## Section 1 
 
-les jours de la semaine , chaque jour contient trois plat de types différents 
+les jours de la semaine , chaque jour contient trois plat de types différents :
+les jours de Lundi à Vendredi contenant(plat principal , entrée et dessert)
+on peut réserver un jour ainsi que changer un repas choisi 
 
 ## section2
 
 Des cartes qui affiches les repas qui existent 
-qui doivent etre ajouter en js , par une fenetre flotante 
+qui doivent etre ajouter en js , par une fenetre flotante ,
+chaque repas contient un nom un prix , une image , catégorie , et 
+à quel jour elle est assigné .
+
+## Structure du projet 
+
+_cantina
+|_______assets__
+|                ________________images 
+|               ________________icons
+|          
+|_______index.html
+|_______README.md
+
+
 
 # Documentation 
 

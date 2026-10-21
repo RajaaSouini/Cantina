@@ -1,6 +1,24 @@
 # Cantina
 L’objectif de ce projet est de concevoir et développer une application web interactive de gestion du menu de la cantine de YouCode, permettant au responsable de planifier les repas hebdomadaires à partir d'une réserve de recettes tout en respectant un plafond budgétaire de 50 DH par jour. 
 
+# tailwind installation du package
+
+npm init -y
+npm install tailwindcss @tailwindcss/cli
+
+# le fichier css source
+
+mkdir src
+echo '@import "tailwindcss";' > src/input.css
+
+# lancer la compilation
+
+npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch
+
+# lien vers le fichier 
+
+<link href="./dist/output.css" rel="stylesheet">
+
 
 # Lien
 

@@ -1,0 +1,24 @@
+{
+  "name": "cantina",
+  "version": "1.0.0",
+  "description": "L’objectif de ce projet est de concevoir et développer une application web interactive de gestion du menu de la cantine de YouCode, permettant au responsable de planifier les repas hebdomadaires à partir d'une réserve de recettes tout en respectant un plafond budgétaire de 50 DH par jour.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RajaaSouini/Cantina.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RajaaSouini/Cantina/issues"
+  },
+  "homepage": "https://github.com/RajaaSouini/Cantina#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

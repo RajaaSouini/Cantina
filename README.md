@@ -1,6 +1,18 @@
 # Cantina
 L’objectif de ce projet est de concevoir et développer une application web interactive de gestion du menu de la cantine de YouCode, permettant au responsable de planifier les repas hebdomadaires à partir d'une réserve de recettes tout en respectant un plafond budgétaire de 50 DH par jour. 
 
+## Header 
+logo du projet , avec boutton ajouter repas
+
+## Section 1 
+
+les jours de la semaine , chaque jour contient trois plat de types différents 
+
+## section2
+
+Des cartes qui affiches les repas qui existent 
+qui doivent etre ajouter en js , par une fenetre flotante 
+
 # Documentation 
 
 

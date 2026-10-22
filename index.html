@@ -8,7 +8,7 @@
     <link href="./dist/output.css" rel="stylesheet">
 
 </head>
-<body>
+<body >
     <header class="bg-[#FEF3E2]">
         <nav class="flex justify-start p-8 items-center shadow-xl  ">
             <div>
@@ -26,9 +26,10 @@
                 <p class="font-mono">Préparons des menu equilibré ensemble.</p>
             </div>
             <div class="p-8 flex items-center">
-                <button class="bg-[#D4621A] hover:bg-[#2A1A0E] hover:text-white rounded-xl w-36 h-16 text-xl text-white">Ajouter repas</button>
+                <button id="ajouter" class="bg-[#D4621A] hover:bg-[#2A1A0E] hover:text-white rounded-xl w-36 h-16 text-xl text-white">Ajouter repas</button>
             </div>
         </article>
+        
         <article class="flex items-center flex-col lg:flex-row lg:justify-around md:flex-row md:justify-around">
             <div class=" flex items-center bg-[#F4AE52] w-full max-w-60 justify-around m-4 rounded-xl p-4">
                 <img class="size-5" src="./assets/icons/cuisine.png" alt="">
@@ -64,6 +65,43 @@
             </div>
         </article>
     </header>
+    <div id="popupform" class="hidden flex flex-col shadow-xl p-8 gap-4 bg-[#FEF3E2] border-[#FEF3E2] rounded-xl box-border m-4">
+    <div>
+        <p class="font-mono">Garde manager</p>
+        <p class="font-mono text-2xl">Nouvelle recette</p>
+    </div>
+    <form class="grid  gap-8">
+        <div class="flex flex-col gap-1 ">
+            <label for="nom">Nom du palet</label>
+            <input id="nom" type="text" class="border-2 rounded-xl text-center p-2 " placeholder="Enter le nom du plat">
+            <span></span>
+        </div>
+        
+        <div class="flex flex-col gap-1">
+            <label for="prix">Le prix</label>
+            <input id="prix" type="number" placeholder="Le prix" class="border-2 rounded-xl text-center p-2">
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <label for="categ">Choisir catégorie</label>
+            <select name="cat" id="categ" class="border-2 rounded-xl text-center p-2">
+                <option>choisir option</option>
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+            </select>
+        </div>
+
+        <div class="flex gap-4 items-center">
+            <label for="badge">Badge qualitatif</label>
+            Bio <input type="radio" name="badge">
+            Végétarien <input type="radio" name="badge">
+            Classique <input type="radio" name="badge">
+        </div>
+        <button id="enregistrer" class="bg-[#D4621A] p-2 rounded-xl w-full" type="submit">Ajouter</button>
+        <button id="annuler" class="bg-[#F4AE52] p-2 rounded-xl w-full" type="button">Fermer</button>
+    </form>
+</div>
        <div class="m-16">
             <p class="font-mono">Planning</p>
             <h2 class="text-2xl">Menu de la semaine</h2>
@@ -528,5 +566,6 @@
             <p></p>
         </div>
     </footer>
+    <script src="./src/app.js" defer></script>
 </body>
 </html>

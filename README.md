@@ -55,12 +55,20 @@ chaque repas contient un nom un prix , une image , catégorie , et
 ## Structure du projet 
 
 _cantina
-|_______assets__
-|                ________________images 
-|               ________________icons
+|_______assets/__
+|                ________________images/ 
+|               ________________icons/
 |          
 |_______index.html
 |_______README.md
+|_______dist/
+|_______node_modules/
+|_______.gitignore
+|_______package-lock.json
+|_______package.json
+|_______src/
+           _____________app.js
+           _____________input.css
 
 
 

@@ -26,6 +26,7 @@ annuler.addEventListener('click', function () {
 
 function afficherDernierRepas(repas) {
     let article = document.createElement('article');
+
     article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
     article.innerHTML = `
         <div class="p-4 flex flex-col gap-8">
@@ -33,7 +34,7 @@ function afficherDernierRepas(repas) {
                 <p class="font-mono text-[#D4621A]">${repas.categRepas}</p>
                 <div class="flex gap-4">
                     <button><img src="./assets/icons/editer.png" alt="" class="size-8"></button>
-                    <button><img src="./assets/icons/poubelle-de-recyclage.png" class="size-8" alt=""></button>
+                    <button><img src="./assets/icons/poubelle-de-recyclage.png" class="size-8 poubelle" alt=""></button>
                 </div>
             </div>
             <div>
@@ -44,7 +45,13 @@ function afficherDernierRepas(repas) {
             </div>
         </div>
     `;
+    const boutonSupprimer = article.querySelector('.poubelle');
+    boutonSupprimer.addEventListener('click', function() {
+        article.remove(); 
+    });
+
     sectionPlat.appendChild(article);
+
 }
 
 function ajouterRepas() {
@@ -75,3 +82,5 @@ enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
 });
+
+

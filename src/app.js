@@ -10,30 +10,40 @@ const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tableRepas = [];
 
-buttonAjouterRepas.addEventListener('click', function () {
+
+
+function ouvrirPopup() {
     popupform.classList.remove('hidden');
     popupform.style.position = "fixed";
     popupform.style.top = "10%";
-    main.classList.add('blur-xs');
     popupform.style.zIndex = '10';
-});
+    main.classList.add('blur-xs');
+}
 
-annuler.addEventListener('click', function () {
+function fermerPopup() {
     popupform.classList.add('hidden');
     main.classList.remove('blur-xs');
+    repasEnEdition = null;
+    articleEnEdition = null;
+    inputName.value = "";
+    inputPrice.value = "";
+    const badge = document.querySelector('input[name="badge"]:checked');
+    if (badge) badge.checked = false;
+}
+
+buttonAjouterRepas.addEventListener('click', function () {
+    ouvrirPopup();
 });
 
+annuler.addEventListener('click', fermerPopup);
 
-function afficherDernierRepas(repas) {
-    let article = document.createElement('article');
-
-    article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
+function remplirArticle(article, repas) {
     article.innerHTML = `
         <div class="p-4 flex flex-col gap-8">
             <div class="flex justify-between items-center">
                 <p class="font-mono text-[#D4621A]">${repas.categRepas}</p>
                 <div class="flex gap-4">
-                    <button><img src="./assets/icons/editer.png" alt="" class="size-8"></button>
+                    <button><img src="./assets/icons/editer.png" alt="" class="size-8 edit"></button>
                     <button><img src="./assets/icons/poubelle-de-recyclage.png" class="size-8 poubelle" alt=""></button>
                 </div>
             </div>
@@ -45,42 +55,46 @@ function afficherDernierRepas(repas) {
             </div>
         </div>
     `;
-    const boutonSupprimer = article.querySelector('.poubelle');
-    boutonSupprimer.addEventListener('click', function() {
-        article.remove(); 
+
+
+    article.querySelector('.poubelle').addEventListener('click', function () {
+        const index = tableRepas.indexOf(repas);
+        if (index !== -1) tableRepas.splice(index, 1);
+        article.remove();
     });
 
-    sectionPlat.appendChild(article);
-
 }
+
+function afficherDernierRepas(repas) {
+    const article = document.createElement('article');
+    article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
+    remplirArticle(article, repas);
+    sectionPlat.appendChild(article);
+}
+
+
 
 function ajouterRepas() {
 
     const badgeCoche = document.querySelector('input[name="badge"]:checked');
-    
+
     const valeurBadge = badgeCoche ? badgeCoche.value : "Aucun";
 
-    const nouveauRepas = {
-        nomRepas: inputName.value,
-        priceRepas: inputPrice.value,
-        categRepas: categ.value,
-        badgeRepas: valeurBadge
-    };
+        const nouveauRepas = {
+            nomRepas: inputName.value,
+            priceRepas: inputPrice.value,
+            categRepas: categ.value,
+            badgeRepas: valeurBadge
+        };
+        tableRepas.push(nouveauRepas);
+        afficherDernierRepas(nouveauRepas);
 
-    tableRepas.push(nouveauRepas);
-    
-   
-    afficherDernierRepas(nouveauRepas);
-    inputName.value = "";
-    inputPrice.value = "";
-    
-    popupform.classList.add('hidden');
-    main.classList.remove('blur-xs');
+    fermerPopup();
 }
 
 enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
-});
 
+});
 

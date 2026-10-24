@@ -10,30 +10,46 @@ const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tableRepas = [];
 
-buttonAjouterRepas.addEventListener('click', function () {
+function sauvegarder(){
+    localStorage.setItem('repas' , JSON.stringify(tableRepas));
+}
+
+
+
+function ouvrirPopup() {
     popupform.classList.remove('hidden');
     popupform.style.position = "fixed";
     popupform.style.top = "10%";
-    main.classList.add('blur-xs');
     popupform.style.zIndex = '10';
-});
+    main.classList.add('blur-xs');
+}
 
-annuler.addEventListener('click', function () {
+function fermerPopup() {
     popupform.classList.add('hidden');
     main.classList.remove('blur-xs');
+    repasEnEdition = null;
+    articleEnEdition = null;
+    inputName.value = "";
+    inputPrice.value = "";
+    const badge = document.querySelector('input[name="badge"]:checked');
+    if (badge) badge.checked = false;
+}
+
+buttonAjouterRepas.addEventListener('click', function () {
+    repasEnEdition = null;
+    articleEnEdition = null;
+    ouvrirPopup();
 });
 
+annuler.addEventListener('click', fermerPopup);
 
-function afficherDernierRepas(repas) {
-    let article = document.createElement('article');
-
-    article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
+function remplirArticle(article, repas) {
     article.innerHTML = `
         <div class="p-4 flex flex-col gap-8">
             <div class="flex justify-between items-center">
                 <p class="font-mono text-[#D4621A]">${repas.categRepas}</p>
                 <div class="flex gap-4">
-                    <button><img src="./assets/icons/editer.png" alt="" class="size-8"></button>
+                    <button><img src="./assets/icons/editer.png" alt="" class="size-8 edit"></button>
                     <button><img src="./assets/icons/poubelle-de-recyclage.png" class="size-8 poubelle" alt=""></button>
                 </div>
             </div>
@@ -45,42 +61,94 @@ function afficherDernierRepas(repas) {
             </div>
         </div>
     `;
-    const boutonSupprimer = article.querySelector('.poubelle');
-    boutonSupprimer.addEventListener('click', function() {
-        article.remove(); 
+
+
+    article.querySelector('.poubelle').addEventListener('click', function () {
+        const index = tableRepas.indexOf(repas);
+        if (index !== -1) tableRepas.splice(index, 1);
+        article.remove();
+        sauvegarder();
     });
 
-    sectionPlat.appendChild(article);
+    article.querySelector('.edit').addEventListener('click' , function(){
+        modifierRepas(repas , article);
+    });
 
 }
+
+function afficherDernierRepas(repas) {
+    const article = document.createElement('article');
+    article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
+    remplirArticle(article, repas);
+    sectionPlat.appendChild(article);
+}
+
+
 
 function ajouterRepas() {
 
     const badgeCoche = document.querySelector('input[name="badge"]:checked');
-    
+
     const valeurBadge = badgeCoche ? badgeCoche.value : "Aucun";
 
-    const nouveauRepas = {
-        nomRepas: inputName.value,
-        priceRepas: inputPrice.value,
-        categRepas: categ.value,
-        badgeRepas: valeurBadge
-    };
+        if(repasEnModification){
+            repasEnModification.nomRepas = inputName.value;
+            repasEnModification.priceRepas = inputPrice.value;
+            repasEnModification.categRepas = categ.value;
+            repasEnModification.badgeRepas = valeurBadge;
 
-    tableRepas.push(nouveauRepas);
-    
-   
-    afficherDernierRepas(nouveauRepas);
-    inputName.value = "";
-    inputPrice.value = "";
-    
-    popupform.classList.add('hidden');
-    main.classList.remove('blur-xs');
+            remplirArticle(articleEnModification , repasEnModification);
+            sauvegarder();
+        }else{
+            const nouveauRepas = {
+            nomRepas: inputName.value,
+            priceRepas: inputPrice.value,
+            categRepas: categ.value,
+            badgeRepas: valeurBadge
+        };
+        tableRepas.push(nouveauRepas);
+        afficherDernierRepas(nouveauRepas);
+        sauvegarder();
+        }
+
+    fermerPopup();
+
 }
 
 enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
+
 });
 
 
+let repasEnModification = null;
+let articleEnModification = null;
+
+function modifierRepas(repas , article){
+    repasEnModification = repas;
+    articleEnModification = article;
+
+    inputName.value = repas.nomRepas ;
+    inputPrice.value = repas.priceRepas ;
+    categ.value = repas.categRepas ;
+
+    const radio = document.querySelector(`input[name="badge"][value="${repas.badgeRepas}"]`);
+    if (radio) radio.checked = true;
+
+    ouvrirPopup();
+
+}
+
+function charger(){
+    const donnees = localStorage.getItem('repas');
+    if(donnees){
+        const repasSauvgarder = JSON.parse(donnees);
+        repasSauvgarder.forEach(function (repas){
+            tableRepas.push(repas);
+            afficherDernierRepas(repas);
+        });
+    }
+}
+
+charger();

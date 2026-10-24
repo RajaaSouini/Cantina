@@ -32,6 +32,8 @@ function fermerPopup() {
 }
 
 buttonAjouterRepas.addEventListener('click', function () {
+    repasEnEdition = null;
+    articleEnEdition = null;
     ouvrirPopup();
 });
 
@@ -63,6 +65,10 @@ function remplirArticle(article, repas) {
         article.remove();
     });
 
+    article.querySelector('.edit').addEventListener('click' , function(){
+        modifierRepas(repas , article);
+    });
+
 }
 
 function afficherDernierRepas(repas) {
@@ -80,7 +86,15 @@ function ajouterRepas() {
 
     const valeurBadge = badgeCoche ? badgeCoche.value : "Aucun";
 
-        const nouveauRepas = {
+        if(repasEnModification){
+            repasEnModification.nomRepas = inputName.value;
+            repasEnModification.priceRepas = inputPrice.value;
+            repasEnModification.categRepas = categ.value;
+            repasEnModification.badgeRepas = valeurBadge;
+
+            remplirArticle(articleEnModification , repasEnModification);
+        }else{
+            const nouveauRepas = {
             nomRepas: inputName.value,
             priceRepas: inputPrice.value,
             categRepas: categ.value,
@@ -88,6 +102,7 @@ function ajouterRepas() {
         };
         tableRepas.push(nouveauRepas);
         afficherDernierRepas(nouveauRepas);
+        }
 
     fermerPopup();
 }
@@ -97,4 +112,23 @@ enregistrer.addEventListener('click', function (e) {
     ajouterRepas();
 
 });
+
+
+let repasEnModification = null;
+let articleEnModification = null;
+
+function modifierRepas(repas , article){
+    repasEnModification = repas;
+    articleEnModification = article;
+
+    inputName.value = repas.nomRepas ;
+    inputPrice.value = repas.priceRepas ;
+    categ.value = repas.categRepas ;
+
+    const radio = document.querySelector(`input[name="badge"][value="${repas.badgeRepas}"]`);
+    if (radio) radio.checked = true;
+
+    ouvrirPopup();
+
+}
 

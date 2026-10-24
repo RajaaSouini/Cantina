@@ -10,6 +10,10 @@ const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tableRepas = [];
 
+function sauvegarder(){
+    localStorage.setItem('repas' , JSON.stringify(tableRepas));
+}
+
 
 
 function ouvrirPopup() {
@@ -63,6 +67,7 @@ function remplirArticle(article, repas) {
         const index = tableRepas.indexOf(repas);
         if (index !== -1) tableRepas.splice(index, 1);
         article.remove();
+        sauvegarder();
     });
 
     article.querySelector('.edit').addEventListener('click' , function(){
@@ -93,6 +98,7 @@ function ajouterRepas() {
             repasEnModification.badgeRepas = valeurBadge;
 
             remplirArticle(articleEnModification , repasEnModification);
+            sauvegarder();
         }else{
             const nouveauRepas = {
             nomRepas: inputName.value,
@@ -102,9 +108,11 @@ function ajouterRepas() {
         };
         tableRepas.push(nouveauRepas);
         afficherDernierRepas(nouveauRepas);
+        sauvegarder();
         }
 
     fermerPopup();
+
 }
 
 enregistrer.addEventListener('click', function (e) {
@@ -132,3 +140,15 @@ function modifierRepas(repas , article){
 
 }
 
+function charger(){
+    const donnees = localStorage.getItem('repas');
+    if(donnees){
+        const repasSauvgarder = JSON.parse(donnees);
+        repasSauvgarder.forEach(function (repas){
+            tableRepas.push(repas);
+            afficherDernierRepas(repas);
+        });
+    }
+}
+
+charger();

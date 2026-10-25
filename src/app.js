@@ -10,16 +10,9 @@ const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tousLesSelects = document.querySelectorAll('.selectPlat');
 const tableRepas = [];
-
-
-const regex = /^.{2,}$/;
-function sauvegarder(){
-    localStorage.setItem('repas' , JSON.stringify(tableRepas));
-}
-
-
-
-
+const nomInc = document.getElementById('nomInc');
+const prixInc = document.getElementById('prixInc');
+const regex = /^.{2,}$/;     
 
 function ouvrirPopup() {
     popupform.classList.remove('hidden');
@@ -36,6 +29,8 @@ function fermerPopup() {
     articleEnEdition = null;
     inputName.value = "";
     inputPrice.value = "";
+    nomInc.textContent = "";
+    prixInc.textContent = "";
     const badge = document.querySelector('input[name="badge"]:checked');
     if (badge) badge.checked = false;
 }
@@ -47,6 +42,10 @@ buttonAjouterRepas.addEventListener('click', function () {
 });
 
 annuler.addEventListener('click', fermerPopup);
+
+function sauvegarder(){
+    localStorage.setItem('repas' , JSON.stringify(tableRepas));
+}
 
 function remplirArticle(article, repas) {
     article.innerHTML = `
@@ -77,12 +76,13 @@ function remplirArticle(article, repas) {
 
             sauvegarder();
             remplirSelectPlat();
-        }
-        
+            alert('repas supprimé');
+        }   
     });
 
     article.querySelector('.edit').addEventListener('click' , function(){
         modifierRepas(repas , article);
+
     });
 
 }
@@ -92,11 +92,7 @@ function afficherDernierRepas(repas) {
     article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
     remplirArticle(article, repas);
     sectionPlat.appendChild(article);
-}
-
-const nomInc = document.getElementById('nomInc');
-const prixInc = document.getElementById('prixInc');
-
+}       
 
 function ajouterRepas() {
     if (!regex.test(inputName.value.trim())) {
@@ -111,8 +107,7 @@ function ajouterRepas() {
         return;
     }
     prixInc.textContent = '';
-    const badgeCoche = document.querySelector('input[name="badge"]:checked');
-
+    const badgeCoche = document.querySelector('input[name="badge"]:checked');            
     const valeurBadge = badgeCoche ? badgeCoche.value : "Aucun";
 
     if (repasEnModification) {
@@ -135,9 +130,9 @@ function ajouterRepas() {
         afficherDernierRepas(nouveauRepas);
         sauvegarder();
         remplirSelectPlat();
-    }
-
+    }           
     fermerPopup();
+    alert('Repas ajouté avec succes');
 
 }
 
@@ -145,8 +140,7 @@ enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
 
-});
-
+});          
 
 let repasEnModification = null;
 let articleEnModification = null;
@@ -190,13 +184,31 @@ function remplirSelectPlat(){
         });
         repasFiltres.forEach(function (repas) {
             const option = document.createElement('option');
+            option.dataset.prix = repas.priceRepas; 
             option.value = repas.nomRepas;
             option.textContent = repas.nomRepas + ' . ' + repas.priceRepas + ' dh';
             select.appendChild(option);
         });
         select.value = valeurChoisie;
-    })
+    });
+
+    document.querySelectorAll('.total').forEach(function(p){
+            totalPrix(p.closest('article'));
+        });
 }
 
+function totalPrix(article){
+    let total = 0;
 
+    article.querySelectorAll('.selectPlat').forEach(function(select){
+        total += Number(select.selectedOptions[0].dataset.prix) || 0;
+    });
 
+    article.querySelector('.total').textContent = total + ' / 50 DH';
+}
+
+tousLesSelects.forEach(function(select){
+    select.addEventListener('change', function(){
+        totalPrix(select.closest('article'));
+    });
+});

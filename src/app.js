@@ -9,17 +9,24 @@ const inputName = document.querySelector('#nom');
 const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tousLesSelects = document.querySelectorAll('.selectPlat');
-const tableRepas = [];
-
-
-const regex = /^.{2,}$/;
-function sauvegarder(){
-    localStorage.setItem('repas' , JSON.stringify(tableRepas));
-}
-
-
-
-
+const tableRepas = [
+    { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" },
+    { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" },
+    { nomRepas: "Taktouka",            priceRepas: "11", categRepas: "Entrée", badgeRepas: "Vegetarien" },
+    { nomRepas: "Salade de lentilles", priceRepas: "13", categRepas: "Entrée", badgeRepas: "Bio" },
+    { nomRepas: "Pastilla au poulet",  priceRepas: "38", categRepas: "Plat principal", badgeRepas: "Classique" },
+    { nomRepas: "Tajine d'agneau",     priceRepas: "42", categRepas: "Plat principal", badgeRepas: "Classique" },
+    { nomRepas: "Rfissa",              priceRepas: "35", categRepas: "Plat principal", badgeRepas: "Bio" },
+    { nomRepas: "Tanjia",              priceRepas: "40", categRepas: "Plat principal", badgeRepas: "Classique" },
+    { nomRepas: "Pâtes aux légumes",   priceRepas: "22", categRepas: "Plat principal", badgeRepas: "Vegetarien" },
+    { nomRepas: "Pastilla au lait",    priceRepas: "14", categRepas: "Dessert", badgeRepas: "Classique" },
+    { nomRepas: "Crème caramel",       priceRepas: "9",  categRepas: "Dessert", badgeRepas: "Classique" },
+    { nomRepas: "Orange à la cannelle", priceRepas: "8", categRepas: "Dessert", badgeRepas: "Bio" },
+    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" }
+];
+const nomInc = document.getElementById('nomInc');
+const prixInc = document.getElementById('prixInc');
+const regex = /^.{2,}$/;     
 
 function ouvrirPopup() {
     popupform.classList.remove('hidden');
@@ -32,21 +39,27 @@ function ouvrirPopup() {
 function fermerPopup() {
     popupform.classList.add('hidden');
     main.classList.remove('blur-xs');
-    repasEnEdition = null;
-    articleEnEdition = null;
+    repasEnModification = null;
+    articleEnModification = null;
     inputName.value = "";
     inputPrice.value = "";
+    nomInc.textContent = "";
+    prixInc.textContent = "";
     const badge = document.querySelector('input[name="badge"]:checked');
     if (badge) badge.checked = false;
 }
 
 buttonAjouterRepas.addEventListener('click', function () {
-    repasEnEdition = null;
-    articleEnEdition = null;
+    repasEnModification = null;
+    articleEnModification = null;
     ouvrirPopup();
 });
 
 annuler.addEventListener('click', fermerPopup);
+
+function sauvegarder(){
+    localStorage.setItem('repas' , JSON.stringify(tableRepas));
+}
 
 function remplirArticle(article, repas) {
     article.innerHTML = `
@@ -69,15 +82,21 @@ function remplirArticle(article, repas) {
 
 
     article.querySelector('.poubelle').addEventListener('click', function () {
-        const index = tableRepas.indexOf(repas);
-        if (index !== -1) tableRepas.splice(index, 1);
-        article.remove();
-        sauvegarder();
-        remplirSelectPlat();
+        const res = prompt('si vous voulez vraiment supprimer entrer oui ');
+        if(res === 'oui'){
+            const index = tableRepas.indexOf(repas);
+            if (index !== -1) tableRepas.splice(index, 1);
+            article.remove();
+
+            sauvegarder();
+            remplirSelectPlat();
+            alert('repas supprimé');
+        }   
     });
 
     article.querySelector('.edit').addEventListener('click' , function(){
         modifierRepas(repas , article);
+
     });
 
 }
@@ -87,11 +106,7 @@ function afficherDernierRepas(repas) {
     article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
     remplirArticle(article, repas);
     sectionPlat.appendChild(article);
-}
-
-const nomInc = document.getElementById('nomInc');
-const prixInc = document.getElementById('prixInc');
-
+}       
 
 function ajouterRepas() {
     if (!regex.test(inputName.value.trim())) {
@@ -106,8 +121,7 @@ function ajouterRepas() {
         return;
     }
     prixInc.textContent = '';
-    const badgeCoche = document.querySelector('input[name="badge"]:checked');
-
+    const badgeCoche = document.querySelector('input[name="badge"]:checked');            
     const valeurBadge = badgeCoche ? badgeCoche.value : "Aucun";
 
     if (repasEnModification) {
@@ -130,9 +144,9 @@ function ajouterRepas() {
         afficherDernierRepas(nouveauRepas);
         sauvegarder();
         remplirSelectPlat();
-    }
-
+    }           
     fermerPopup();
+    alert('Repas ajouté avec succes');
 
 }
 
@@ -140,8 +154,7 @@ enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
 
-});
-
+});          
 
 let repasEnModification = null;
 let articleEnModification = null;
@@ -160,6 +173,10 @@ function modifierRepas(repas , article){
     ouvrirPopup();
 
 }
+
+tableRepas.forEach(function (repas) {
+    afficherDernierRepas(repas);
+});
 
 function charger(){
     const donnees = localStorage.getItem('repas');
@@ -185,13 +202,31 @@ function remplirSelectPlat(){
         });
         repasFiltres.forEach(function (repas) {
             const option = document.createElement('option');
+            option.dataset.prix = repas.priceRepas; 
             option.value = repas.nomRepas;
             option.textContent = repas.nomRepas + ' . ' + repas.priceRepas + ' dh';
             select.appendChild(option);
         });
         select.value = valeurChoisie;
-    })
+    });
+
+    document.querySelectorAll('.total').forEach(function(p){
+            totalPrix(p.closest('article'));
+        });
 }
 
+function totalPrix(article){
+    let total = 0;
 
+    article.querySelectorAll('.selectPlat').forEach(function(select){
+        total += Number(select.selectedOptions[0].dataset.prix) || 0;
+    });
 
+    article.querySelector('.total').textContent = total + ' / 50 DH';
+}
+
+tousLesSelects.forEach(function(select){
+    select.addEventListener('change', function(){
+        totalPrix(select.closest('article'));
+    });
+});

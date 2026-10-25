@@ -8,11 +8,16 @@ const sectionPlat = document.querySelector('#plat');
 const inputName = document.querySelector('#nom');
 const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
+const selectPlat = document.querySelector('.selectPlat');
 const tableRepas = [];
 
+
+const regex = /^.{2,}$/;
 function sauvegarder(){
     localStorage.setItem('repas' , JSON.stringify(tableRepas));
 }
+
+
 
 
 
@@ -68,6 +73,7 @@ function remplirArticle(article, repas) {
         if (index !== -1) tableRepas.splice(index, 1);
         article.remove();
         sauvegarder();
+        remplirSelectPlat();
     });
 
     article.querySelector('.edit').addEventListener('click' , function(){
@@ -83,25 +89,39 @@ function afficherDernierRepas(repas) {
     sectionPlat.appendChild(article);
 }
 
+const nomInc = document.getElementById('nomInc');
+const prixInc = document.getElementById('prixInc');
 
 
 function ajouterRepas() {
+    if (!regex.test(inputName.value.trim())) {
+        nomInc.textContent = 'Le nom doit contenir au moins 2 caractères';
+        return;
+    }
+    nomInc.textContent = '';
 
+    const prix = Number(inputPrice.value);
+    if (inputPrice.value.trim() === '' || isNaN(prix) || prix < 0) {
+        prixInc.textContent = 'Le prix doit être un nombre positif';
+        return;
+    }
+    prixInc.textContent = '';
     const badgeCoche = document.querySelector('input[name="badge"]:checked');
 
     const valeurBadge = badgeCoche ? badgeCoche.value : "Aucun";
 
-        if(repasEnModification){
-            repasEnModification.nomRepas = inputName.value;
-            repasEnModification.priceRepas = inputPrice.value;
-            repasEnModification.categRepas = categ.value;
-            repasEnModification.badgeRepas = valeurBadge;
+    if (repasEnModification) {
+        repasEnModification.nomRepas = inputName.value.trim();
+        repasEnModification.priceRepas = inputPrice.value;
+        repasEnModification.categRepas = categ.value;
+        repasEnModification.badgeRepas = valeurBadge;
 
-            remplirArticle(articleEnModification , repasEnModification);
-            sauvegarder();
-        }else{
-            const nouveauRepas = {
-            nomRepas: inputName.value,
+        remplirArticle(articleEnModification, repasEnModification);
+        sauvegarder();
+        remplirSelectPlat();
+    } else {
+        const nouveauRepas = {
+            nomRepas: inputName.value.trim(),
             priceRepas: inputPrice.value,
             categRepas: categ.value,
             badgeRepas: valeurBadge
@@ -109,7 +129,8 @@ function ajouterRepas() {
         tableRepas.push(nouveauRepas);
         afficherDernierRepas(nouveauRepas);
         sauvegarder();
-        }
+        remplirSelectPlat();
+    }
 
     fermerPopup();
 
@@ -149,6 +170,25 @@ function charger(){
             afficherDernierRepas(repas);
         });
     }
+    remplirSelectPlat();
 }
 
 charger();
+
+function remplirSelectPlat(){
+    selectPlat.innerHTML = `<option value=">Choisir un plat<option>`;
+
+    const repasFiltrer = tableRepas.filter(function(repas){
+        return repas.categRepas === categ.value;
+    });
+
+    repasFiltrer.forEach(function (repas){
+        const option = document.createElement('option');
+        option.value = repas.nomRepas;
+        option.textContent = repas.nomRepas;
+        selectPlat.appendChild(option);
+    });
+}
+
+
+filtreCateg.addEventListener('change', remplirSelectPlat);  

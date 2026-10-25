@@ -69,11 +69,16 @@ function remplirArticle(article, repas) {
 
 
     article.querySelector('.poubelle').addEventListener('click', function () {
-        const index = tableRepas.indexOf(repas);
-        if (index !== -1) tableRepas.splice(index, 1);
-        article.remove();
-        sauvegarder();
-        remplirSelectPlat();
+        const res = prompt('si vous voulez vraiment supprimer entrer oui ');
+        if(res === 'oui'){
+            const index = tableRepas.indexOf(repas);
+            if (index !== -1) tableRepas.splice(index, 1);
+            article.remove();
+
+            sauvegarder();
+            remplirSelectPlat();
+        }
+        
     });
 
     article.querySelector('.edit').addEventListener('click' , function(){

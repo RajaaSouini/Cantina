@@ -9,7 +9,21 @@ const inputName = document.querySelector('#nom');
 const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tousLesSelects = document.querySelectorAll('.selectPlat');
-const tableRepas = [];
+const tableRepas = [
+    { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" },
+    { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" },
+    { nomRepas: "Taktouka",            priceRepas: "11", categRepas: "Entrée", badgeRepas: "Vegetarien" },
+    { nomRepas: "Salade de lentilles", priceRepas: "13", categRepas: "Entrée", badgeRepas: "Bio" },
+    { nomRepas: "Pastilla au poulet",  priceRepas: "38", categRepas: "Plat principal", badgeRepas: "Classique" },
+    { nomRepas: "Tajine d'agneau",     priceRepas: "42", categRepas: "Plat principal", badgeRepas: "Classique" },
+    { nomRepas: "Rfissa",              priceRepas: "35", categRepas: "Plat principal", badgeRepas: "Bio" },
+    { nomRepas: "Tanjia",              priceRepas: "40", categRepas: "Plat principal", badgeRepas: "Classique" },
+    { nomRepas: "Pâtes aux légumes",   priceRepas: "22", categRepas: "Plat principal", badgeRepas: "Vegetarien" },
+    { nomRepas: "Pastilla au lait",    priceRepas: "14", categRepas: "Dessert", badgeRepas: "Classique" },
+    { nomRepas: "Crème caramel",       priceRepas: "9",  categRepas: "Dessert", badgeRepas: "Classique" },
+    { nomRepas: "Orange à la cannelle", priceRepas: "8", categRepas: "Dessert", badgeRepas: "Bio" },
+    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" }
+];
 const nomInc = document.getElementById('nomInc');
 const prixInc = document.getElementById('prixInc');
 const regex = /^.{2,}$/;     
@@ -25,8 +39,8 @@ function ouvrirPopup() {
 function fermerPopup() {
     popupform.classList.add('hidden');
     main.classList.remove('blur-xs');
-    repasEnEdition = null;
-    articleEnEdition = null;
+    repasEnModification = null;
+    articleEnModification = null;
     inputName.value = "";
     inputPrice.value = "";
     nomInc.textContent = "";
@@ -36,8 +50,8 @@ function fermerPopup() {
 }
 
 buttonAjouterRepas.addEventListener('click', function () {
-    repasEnEdition = null;
-    articleEnEdition = null;
+    repasEnModification = null;
+    articleEnModification = null;
     ouvrirPopup();
 });
 
@@ -159,6 +173,10 @@ function modifierRepas(repas , article){
     ouvrirPopup();
 
 }
+
+tableRepas.forEach(function (repas) {
+    afficherDernierRepas(repas);
+});
 
 function charger(){
     const donnees = localStorage.getItem('repas');

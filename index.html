@@ -84,10 +84,10 @@
 
         <div class="flex flex-col gap-1">
             <label for="categ">Choisir catégorie</label>
-            <select  name="cat" id="categ" class="border-2 rounded-xl text-center p-2">
+            <select  name="cat" id="categ" class="border-2 rounded-xl text-center p-2 ">
                 <option value="">choisir option</option>
-                <option value="plat principal">Plat principal</option>
-                <option value="Entre">Entrée</option>
+                <option value="Plat principal">Plat principal</option>
+                <option value="Entrée">Entrée</option>
                 <option value="Dessert">Dessert</option>
             </select>
         </div>
@@ -117,7 +117,7 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine.png"> Entrée</p>
-                <select  class="bg-[#FEF3E2]  selectPlat">
+                <select  class="bg-[#FEF3E2]  selectPlat" data-categ="Entrée">
                     
                 </select>
                 <div class="flex justify-between">
@@ -127,7 +127,7 @@
             </div> 
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/dejeuner.png"> Plat principal</p>
-                <select   class="bg-[#FEF3E2] selectPlat">
+                <select   class="bg-[#FEF3E2] selectPlat" data-categ="Plat principal">
                     
                 </select>
                 <div class="flex justify-between">
@@ -137,7 +137,7 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine1.png"> Sortie</p>
-                <select class="bg-[#FEF3E2] selectPlat">
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Dessert">
                     
                 </select>
                 <div class="flex justify-between">
@@ -162,10 +162,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine.png"> Entrée</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Entrée">
+                    
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -174,10 +172,8 @@
             </div> 
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/dejeuner.png"> Plat principal</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Plat principal">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -186,10 +182,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine1.png"> Sortie</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Dessert">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -214,10 +208,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine.png"> Entrée</p>
-                <select  class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select  class="bg-[#FEF3E2] selectPlat" data-categ="Entrée">
+                  
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -226,22 +218,18 @@
             </div> 
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/dejeuner.png"> Plat principal</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Plat principal">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
                     <p>8 DH</p>
                 </div>
             </div>
-            <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
+            <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8" >
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine1.png"> Sortie</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Dessert">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -266,10 +254,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine.png"> Entrée</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Entrée">
+                  
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -278,10 +264,8 @@
             </div> 
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/dejeuner.png"> Plat principal</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Plat principal">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -290,10 +274,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine1.png"> Sortie</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Dessert">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -318,10 +300,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine.png"> Entrée</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Entrée">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -330,10 +310,8 @@
             </div> 
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/dejeuner.png"> Plat principal</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Plat principal">
+                   
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>
@@ -342,10 +320,8 @@
             </div>
             <div class=" p-8 rounded-xl bg-[#FEF3E2] flex flex-col gap-8">
                 <p class="flex items-center gap-4"><img class="size-4" src="./assets/icons/cantine1.png"> Sortie</p>
-                <select class="bg-[#FEF3E2]">
-                    <option>Brioutage au fromage . 8dh</option>
-                    <option>Salade marocaine . 12dh</option>
-                    <option>Salade sésarienne . 15dh</option>
+                <select class="bg-[#FEF3E2] selectPlat" data-categ="Dessert">
+                  
                 </select>
                 <div class="flex justify-between">
                     <p>Bio</p>

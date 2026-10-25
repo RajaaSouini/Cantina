@@ -8,7 +8,7 @@ const sectionPlat = document.querySelector('#plat');
 const inputName = document.querySelector('#nom');
 const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
-const selectPlat = document.querySelector('.selectPlat');
+const tousLesSelects = document.querySelectorAll('.selectPlat');
 const tableRepas = [];
 
 
@@ -176,19 +176,22 @@ function charger(){
 charger();
 
 function remplirSelectPlat(){
-    selectPlat.innerHTML = `<option value=">Choisir un plat<option>`;
+    tousLesSelects.forEach(function (select){
+        const valeurChoisie = select.value;
 
-    const repasFiltrer = tableRepas.filter(function(repas){
-        return repas.categRepas === categ.value;
-    });
-
-    repasFiltrer.forEach(function (repas){
-        const option = document.createElement('option');
-        option.value = repas.nomRepas;
-        option.textContent = repas.nomRepas;
-        selectPlat.appendChild(option);
-    });
+        select.innerHTML = '<option value="">Choisir un plat</option>';
+        const repasFiltres = tableRepas.filter(function (repas){
+            return repas.categRepas === select.dataset.categ;
+        });
+        repasFiltres.forEach(function (repas) {
+            const option = document.createElement('option');
+            option.value = repas.nomRepas;
+            option.textContent = repas.nomRepas + ' . ' + repas.priceRepas + ' dh';
+            select.appendChild(option);
+        });
+        select.value = valeurChoisie;
+    })
 }
 
 
-filtreCateg.addEventListener('change', remplirSelectPlat);  
+

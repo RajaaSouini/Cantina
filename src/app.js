@@ -265,7 +265,15 @@ for(let i = 0 ; i< btnReserver.length ; i++){
                     carte.style.filter ='grayscale(1)';
                 }
             });
+
+            tableRepas.forEach(function (repas){
+                if(repas.nomRepas === platChoisi){
+                    repas.reserve = true;
+                }
+            })
         });
+        sauvegarder();
+        statistique();
         
         alert('Réserve avec success prix moins que 50');
     });
@@ -277,6 +285,25 @@ tousLesSelects.forEach(function(select){
         totalPrix(select.closest('article'));
     });
 });
+
+
+//================ Statistiques =================
+const recet = document.querySelector('#rec');
+const recNbr = document.querySelector('.recNbr');
+function statistique (){
+    let nbrRecette = tableRepas.length;
+    recet.textContent = nbrRecette;
+
+    let count = 0;
+    tableRepas.forEach(function (repas){
+        if(repas.reverse === true){
+            count += 1 ;
+        }
+    });
+    recNbr.textContent = count + " plat";
+}
+
+statistique();
 
 
 

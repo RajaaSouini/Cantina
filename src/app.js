@@ -9,6 +9,8 @@ const inputName = document.querySelector('#nom');
 const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tousLesSelects = document.querySelectorAll('.selectPlat');
+
+const btnReserver = document.querySelector('.reserverBtn');
 const tableRepas = [
     { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" },
     { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" },
@@ -223,10 +225,26 @@ function totalPrix(article){
     });
 
     article.querySelector('.total').textContent = total + ' / 50 DH';
+    article.dataset.totalActuel = total;
 }
+
+btnReserver.addEventListener('click' , function(){
+        const article = btnReserver.closest('article');
+        const total = Number(article.dataset.totalActuel) || 0 ;
+        if(total < 50){
+            alert('le prix total est moins que 50 , plat réserver avec succes');
+            
+        }else{
+            alert('Impossible de réserver ce jour , le prix est plus que 50 DH');
+        }
+});
 
 tousLesSelects.forEach(function(select){
     select.addEventListener('change', function(){
         totalPrix(select.closest('article'));
     });
 });
+
+
+
+

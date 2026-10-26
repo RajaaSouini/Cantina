@@ -1,35 +1,56 @@
+// ======= Les Constantes appellés de l'HTML ================
 const buttonAjouterRepas = document.getElementById('ajouter');
 const popupform = document.getElementById('popupform');
 const annuler = document.getElementById('annuler');
 const main = document.querySelector('#main');
 const enregistrer = document.getElementById('enregistrer');
-const sectionPlat = document.querySelector('#plat');
-
+const sectionPlat = document.querySelector('#plat');           
 const inputName = document.querySelector('#nom');
 const inputPrice = document.querySelector('#prix');
 const categ = document.querySelector('#categ');
 const tousLesSelects = document.querySelectorAll('.selectPlat');
-
-const btnReserver = document.querySelector('.reserverBtn');
+const btnReserver = document.querySelectorAll('.reserverBtn');
 const tableRepas = [
-    { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" },
-    { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" },
-    { nomRepas: "Taktouka",            priceRepas: "11", categRepas: "Entrée", badgeRepas: "Vegetarien" },
-    { nomRepas: "Salade de lentilles", priceRepas: "13", categRepas: "Entrée", badgeRepas: "Bio" },
-    { nomRepas: "Pastilla au poulet",  priceRepas: "38", categRepas: "Plat principal", badgeRepas: "Classique" },
-    { nomRepas: "Tajine d'agneau",     priceRepas: "42", categRepas: "Plat principal", badgeRepas: "Classique" },
-    { nomRepas: "Rfissa",              priceRepas: "35", categRepas: "Plat principal", badgeRepas: "Bio" },
-    { nomRepas: "Tanjia",              priceRepas: "40", categRepas: "Plat principal", badgeRepas: "Classique" },
-    { nomRepas: "Pâtes aux légumes",   priceRepas: "22", categRepas: "Plat principal", badgeRepas: "Vegetarien" },
-    { nomRepas: "Pastilla au lait",    priceRepas: "14", categRepas: "Dessert", badgeRepas: "Classique" },
-    { nomRepas: "Crème caramel",       priceRepas: "9",  categRepas: "Dessert", badgeRepas: "Classique" },
-    { nomRepas: "Orange à la cannelle", priceRepas: "8", categRepas: "Dessert", badgeRepas: "Bio" },
-    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" }
+    { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" , reserve : false },
+    { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" , reserve : false},
+    { nomRepas: "Taktouka",            priceRepas: "11", categRepas: "Entrée", badgeRepas: "Vegetarien" , reserve : false},
+    { nomRepas: "Salade de lentilles", priceRepas: "13", categRepas: "Entrée", badgeRepas: "Bio", reserve : false },
+    { nomRepas: "Pastilla au poulet",  priceRepas: "38", categRepas: "Plat principal", badgeRepas: "Classique", reserve : false },
+    { nomRepas: "Tajine d'agneau",     priceRepas: "42", categRepas: "Plat principal", badgeRepas: "Classique", reserve : false },
+    { nomRepas: "Rfissa",              priceRepas: "35", categRepas: "Plat principal", badgeRepas: "Bio", reserve : false },
+    { nomRepas: "Tanjia",              priceRepas: "40", categRepas: "Plat principal", badgeRepas: "Classique" , reserve : false},
+    { nomRepas: "Pâtes aux légumes",   priceRepas: "22", categRepas: "Plat principal", badgeRepas: "Vegetarien" , reserve : false},
+    { nomRepas: "Pastilla au lait",    priceRepas: "14", categRepas: "Dessert", badgeRepas: "Classique", reserve : false },
+    { nomRepas: "Crème caramel",       priceRepas: "9",  categRepas: "Dessert", badgeRepas: "Classique" , reserve : false},
+    { nomRepas: "Orange à la cannelle", priceRepas: "8", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false},
+    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false}
 ];
 const nomInc = document.getElementById('nomInc');
 const prixInc = document.getElementById('prixInc');
-const regex = /^.{2,}$/;     
+const regex = /^.{2,}$/;  
 
+//=============== Sauvegarde et chargement localStorage ============
+function sauvegarder(){
+    localStorage.setItem('repas' , JSON.stringify(tableRepas));
+}
+function charger(){
+    const donnees = localStorage.getItem('repas');
+    if(donnees){
+        const repasSauvgarder = JSON.parse(donnees);
+        repasSauvgarder.forEach(function (repas){
+            tableRepas.push(repas);
+            afficherDernierRepas(repas);
+        });
+    }
+    remplirSelectPlat();
+}
+
+charger();
+
+
+
+
+//========== Le popup =====================
 function ouvrirPopup() {
     popupform.classList.remove('hidden');
     popupform.style.position = "fixed";
@@ -59,11 +80,10 @@ buttonAjouterRepas.addEventListener('click', function () {
 
 annuler.addEventListener('click', fermerPopup);
 
-function sauvegarder(){
-    localStorage.setItem('repas' , JSON.stringify(tableRepas));
-}
-
+//============Afficher les cartes ==================  
 function remplirArticle(article, repas) {
+    article.dataset.nom = repas.nomRepas;
+
     article.innerHTML = `
         <div class="p-4 flex flex-col gap-8">
             <div class="flex justify-between items-center">
@@ -108,8 +128,14 @@ function afficherDernierRepas(repas) {
     article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
     remplirArticle(article, repas);
     sectionPlat.appendChild(article);
-}       
+}   
 
+tableRepas.forEach(function (repas) {
+    afficherDernierRepas(repas);
+});
+
+
+//=============== ajouter repas ================
 function ajouterRepas() {
     if (!regex.test(inputName.value.trim())) {
         nomInc.textContent = 'Le nom doit contenir au moins 2 caractères';
@@ -160,7 +186,7 @@ enregistrer.addEventListener('click', function (e) {
 
 let repasEnModification = null;
 let articleEnModification = null;
-
+//===============Modifier repas =================
 function modifierRepas(repas , article){
     repasEnModification = repas;
     articleEnModification = article;
@@ -176,24 +202,10 @@ function modifierRepas(repas , article){
 
 }
 
-tableRepas.forEach(function (repas) {
-    afficherDernierRepas(repas);
-});
 
-function charger(){
-    const donnees = localStorage.getItem('repas');
-    if(donnees){
-        const repasSauvgarder = JSON.parse(donnees);
-        repasSauvgarder.forEach(function (repas){
-            tableRepas.push(repas);
-            afficherDernierRepas(repas);
-        });
-    }
-    remplirSelectPlat();
-}
 
-charger();
 
+//============remplissage des selects ================
 function remplirSelectPlat(){
     tousLesSelects.forEach(function (select){
         const valeurChoisie = select.value;
@@ -217,6 +229,7 @@ function remplirSelectPlat(){
         });
 }
 
+//============ calcul du total prix ==================
 function totalPrix(article){
     let total = 0;
 
@@ -228,16 +241,36 @@ function totalPrix(article){
     article.dataset.totalActuel = total;
 }
 
-btnReserver.addEventListener('click' , function(){
-        const article = btnReserver.closest('article');
+//===============check Réserver un jour=================
+
+for(let i = 0 ; i< btnReserver.length ; i++){
+    btnReserver[i].addEventListener('click' , function(){
+        const article = btnReserver[i].closest('article');
         const total = Number(article.dataset.totalActuel) || 0 ;
-        if(total < 50){
-            alert('le prix total est moins que 50 , plat réserver avec succes');
-            
-        }else{
-            alert('Impossible de réserver ce jour , le prix est plus que 50 DH');
+
+         if(total >= 50){
+            alert('prix sup à 50 veuillez rechoisir');
+            return;
         }
-});
+
+        const selectJours = article.querySelectorAll(".selectPlat");
+        const toutLesPlats = sectionPlat.querySelectorAll('article');
+
+        selectJours.forEach(function(select){
+            const platChoisi = select.value;
+
+            toutLesPlats.forEach(function (carte){
+                if(carte.dataset.nom === platChoisi){
+                    carte.style.opacity = '0.4';
+                    carte.style.filter ='grayscale(1)';
+                }
+            });
+        });
+        
+        alert('Réserve avec success prix moins que 50');
+    });
+}
+
 
 tousLesSelects.forEach(function(select){
     select.addEventListener('change', function(){

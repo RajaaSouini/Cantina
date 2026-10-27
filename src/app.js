@@ -5,9 +5,7 @@ import { buttonAjouterRepas,popupform,annuler,main,enregistrer,sectionPlat,input
 import { sauvegarder , charger } from "./utils.js";
 import { ouvrirPopup , fermerPopup } from "./ui.js";
 //=========== appel de cherger localstorage ===============
-charger();
-
-
+charger();         
 export let repasEnModification = null;
 export let articleEnModification = null;
 //================== Le popup ===========================
@@ -122,9 +120,7 @@ enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
 
-});          
-
-
+});                       
 //===============Modifier repas =================
 function modifierRepas(repas , article){
     repasEnModification = repas;
@@ -139,11 +135,7 @@ function modifierRepas(repas , article){
 
     ouvrirPopup();
 
-}
-
-
-
-
+}                
 //============remplissage des selects ================
 export function remplirSelectPlat(){
     tousLesSelects.forEach(function (select){
@@ -166,8 +158,7 @@ export function remplirSelectPlat(){
     document.querySelectorAll('.total').forEach(function(p){
             totalPrix(p.closest('article'));
         });
-}
-
+}                    
 //============ calcul du total prix ==================
 function totalPrix(article){
     let total = 0;
@@ -178,10 +169,9 @@ function totalPrix(article){
 
     article.querySelector('.total').textContent = total + ' / 50 DH';
     article.dataset.totalActuel = total;
-}
-
+}                   
 //===============check Réserver un jour=================
-let dejaClick = false;
+
 for(let i = 0 ; i< btnReserver.length ; i++){
     btnReserver[i].addEventListener('click' , function(){
         const article = btnReserver[i].closest('article');
@@ -214,8 +204,7 @@ for(let i = 0 ; i< btnReserver.length ; i++){
         sauvegarder();
         statistique();
         
-        alert('Réserve avec success prix moins que 50');
-        dejaClick = true;
+        alert('Réserve avec success prix moins que 50');           
     });
 }
 
@@ -224,9 +213,7 @@ tousLesSelects.forEach(function(select){
     select.addEventListener('change', function(){
         totalPrix(select.closest('article'));
     });
-});
-
-
+});                 
 //================ Statistiques =================
 const recet = document.querySelector('#rec');
 const recNbr = document.querySelector('.recNbr');
@@ -256,14 +243,15 @@ function statistique (){
     //Jour pret 
     let conteur = 0 ;
     for(let i = 0 ; i < btnReserver.length ; i++){
-        if(btnReserver[i].dejaClick === true){
-            conteur += 1 ;
-        }
-    }
-    jourPret.textContent = conteur ;
+        btnReserver[i].addEventListener('click', function(){
+            if(!this.dejaClick){
+                this.dejaClick = true;
+                conteur += 1 ;
 
-
-
+                jourPret.textContent = conteur;
+            }
+        });
+    }                 
 }
 
 statistique();

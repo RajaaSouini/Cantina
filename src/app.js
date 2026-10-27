@@ -1,77 +1,16 @@
-// ======= Les Constantes appellés de l'HTML ================
-const buttonAjouterRepas = document.getElementById('ajouter');
-const popupform = document.getElementById('popupform');
-const annuler = document.getElementById('annuler');
-const main = document.querySelector('#main');
-const enregistrer = document.getElementById('enregistrer');
-const sectionPlat = document.querySelector('#plat');           
-const inputName = document.querySelector('#nom');
-const inputPrice = document.querySelector('#prix');
-const categ = document.querySelector('#categ');
-const tousLesSelects = document.querySelectorAll('.selectPlat');
-const btnReserver = document.querySelectorAll('.reserverBtn');
-const tableRepas = [
-    { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" , reserve : false },
-    { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" , reserve : false},
-    { nomRepas: "Taktouka",            priceRepas: "11", categRepas: "Entrée", badgeRepas: "Vegetarien" , reserve : false},
-    { nomRepas: "Salade de lentilles", priceRepas: "13", categRepas: "Entrée", badgeRepas: "Bio", reserve : false },
-    { nomRepas: "Pastilla au poulet",  priceRepas: "38", categRepas: "Plat principal", badgeRepas: "Classique", reserve : false },
-    { nomRepas: "Tajine d'agneau",     priceRepas: "42", categRepas: "Plat principal", badgeRepas: "Classique", reserve : false },
-    { nomRepas: "Rfissa",              priceRepas: "35", categRepas: "Plat principal", badgeRepas: "Bio", reserve : false },
-    { nomRepas: "Tanjia",              priceRepas: "40", categRepas: "Plat principal", badgeRepas: "Classique" , reserve : false},
-    { nomRepas: "Pâtes aux légumes",   priceRepas: "22", categRepas: "Plat principal", badgeRepas: "Vegetarien" , reserve : false},
-    { nomRepas: "Pastilla au lait",    priceRepas: "14", categRepas: "Dessert", badgeRepas: "Classique", reserve : false },
-    { nomRepas: "Crème caramel",       priceRepas: "9",  categRepas: "Dessert", badgeRepas: "Classique" , reserve : false},
-    { nomRepas: "Orange à la cannelle", priceRepas: "8", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false},
-    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false}
-];
-const nomInc = document.getElementById('nomInc');
-const prixInc = document.getElementById('prixInc');
-const regex = /^.{2,}$/;  
-
-//=============== Sauvegarde et chargement localStorage ============
-function sauvegarder(){
-    localStorage.setItem('repas' , JSON.stringify(tableRepas));
-}
-function charger(){
-    const donnees = localStorage.getItem('repas');
-    if(donnees){
-        const repasSauvgarder = JSON.parse(donnees);
-        repasSauvgarder.forEach(function (repas){
-            tableRepas.push(repas);
-            afficherDernierRepas(repas);
-        });
-    }
-    remplirSelectPlat();
-}
-
+import { buttonAjouterRepas,popupform,annuler,main,enregistrer,sectionPlat,inputName,
+    inputPrice,categ,tousLesSelects,btnReserver,tableRepas,nomInc,prixInc,regex,
+    
+ } from "./ui.js"; 
+import { sauvegarder , charger } from "./utils.js";
+import { ouvrirPopup , fermerPopup } from "./ui.js";
+//=========== appel de cherger localstorage ===============
 charger();
 
 
-
-
-//========== Le popup =====================
-function ouvrirPopup() {
-    popupform.classList.remove('hidden');
-    popupform.style.position = "fixed";
-    popupform.style.top = "10%";
-    popupform.style.zIndex = '10';
-    main.classList.add('blur-xs');
-}
-
-function fermerPopup() {
-    popupform.classList.add('hidden');
-    main.classList.remove('blur-xs');
-    repasEnModification = null;
-    articleEnModification = null;
-    inputName.value = "";
-    inputPrice.value = "";
-    nomInc.textContent = "";
-    prixInc.textContent = "";
-    const badge = document.querySelector('input[name="badge"]:checked');
-    if (badge) badge.checked = false;
-}
-
+export let repasEnModification = null;
+export let articleEnModification = null;
+//================== Le popup ===========================
 buttonAjouterRepas.addEventListener('click', function () {
     repasEnModification = null;
     articleEnModification = null;
@@ -80,7 +19,7 @@ buttonAjouterRepas.addEventListener('click', function () {
 
 annuler.addEventListener('click', fermerPopup);
 
-//============Afficher les cartes ==================  
+//============Afficher les cartes ======================
 function remplirArticle(article, repas) {
     article.dataset.nom = repas.nomRepas;
 
@@ -123,7 +62,7 @@ function remplirArticle(article, repas) {
 
 }
 
-function afficherDernierRepas(repas) {
+export function afficherDernierRepas(repas) {
     const article = document.createElement('article');
     article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
     remplirArticle(article, repas);
@@ -166,7 +105,8 @@ function ajouterRepas() {
             nomRepas: inputName.value.trim(),
             priceRepas: inputPrice.value,
             categRepas: categ.value,
-            badgeRepas: valeurBadge
+            badgeRepas: valeurBadge,
+            reserve : false
         };
         tableRepas.push(nouveauRepas);
         afficherDernierRepas(nouveauRepas);
@@ -184,8 +124,7 @@ enregistrer.addEventListener('click', function (e) {
 
 });          
 
-let repasEnModification = null;
-let articleEnModification = null;
+
 //===============Modifier repas =================
 function modifierRepas(repas , article){
     repasEnModification = repas;
@@ -206,7 +145,7 @@ function modifierRepas(repas , article){
 
 
 //============remplissage des selects ================
-function remplirSelectPlat(){
+export function remplirSelectPlat(){
     tousLesSelects.forEach(function (select){
         const valeurChoisie = select.value;
 
@@ -242,7 +181,7 @@ function totalPrix(article){
 }
 
 //===============check Réserver un jour=================
-
+let dejaClick = false;
 for(let i = 0 ; i< btnReserver.length ; i++){
     btnReserver[i].addEventListener('click' , function(){
         const article = btnReserver[i].closest('article');
@@ -276,6 +215,7 @@ for(let i = 0 ; i< btnReserver.length ; i++){
         statistique();
         
         alert('Réserve avec success prix moins que 50');
+        dejaClick = true;
     });
 }
 
@@ -290,10 +230,12 @@ tousLesSelects.forEach(function(select){
 //================ Statistiques =================
 const recet = document.querySelector('#rec');
 const recNbr = document.querySelector('.recNbr');
+const equ = document.querySelector('.equ');
+const jourPret = document.querySelector('.jourPret');
 function statistique (){
     let nbrRecette = tableRepas.length;
     recet.textContent = nbrRecette;
-
+    // repas en reserve
     let count = 0;
     tableRepas.forEach(function (repas){
         if(repas.reverse === true){
@@ -301,6 +243,27 @@ function statistique (){
         }
     });
     recNbr.textContent = count + " plat";
+
+    //menu équilibré
+    tableRepas.forEach(function (repas){
+        if(repas.reserve === true && repas.badgeRepas === 'Bio'){
+            equ.textContent = "Equilibré";
+        }else{
+            equ.textContent = "Non équilibré";
+        }
+    });
+
+    //Jour pret 
+    let conteur = 0 ;
+    for(let i = 0 ; i < btnReserver.length ; i++){
+        if(btnReserver[i].dejaClick === true){
+            conteur += 1 ;
+        }
+    }
+    jourPret.textContent = conteur ;
+
+
+
 }
 
 statistique();

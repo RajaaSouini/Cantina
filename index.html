@@ -33,15 +33,15 @@
                 <img class="size-5" src="./assets/icons/cuisine.png" alt="">
                 <div class="font-mono ">
                     <p>En réserve</p>
-                    <p class="font-bold">1 plat</p>
-                    <p>sur 9 recettes</p>
+                    <p class="font-bold recNbr"></p>
+                    <span id="rec"></span>
                 </div>
             </div>
             <div class=" flex items-center bg-[#D4621A] w-full max-w-60 justify-around m-4 rounded-xl p-4">
                 <img class="size-5" src="./assets/icons/world-humanitarian-day.png" alt="">
                 <div class="font-mono ">
                     <p>Jour pret</p>
-                    <p class="font-bold">1</p>
+                    <p class="font-bold jourPret"></p>
                     <p>sur 5 jours</p>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                 <img class="size-5" src="./assets/icons/ustensiles-de-cuisine.png" alt="">
                 <div class="font-mono">
                     <p>Equilibre alimentaire</p>
-                    <p class="font-bold">Equilibré</p>
+                    <p class="font-bold equ"></p>
                     <p>option bio incluse</p>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                 <p class="total"></p>
             </div>
             <div>
-                    <button class="reserverBtn bg-[#D4621A] p-2 rounded-xl w-full">Réserver</button>
+                    <button class="reserverBtn bg-[#D4621A] p-2 rounded-xl w-full" type="button">Réserver</button>
             </div>
         </article>
         <article class="border-4 border-[#F4AE52] flex flex-col gap-4 shadow-xl p-4 rounded-xl">
@@ -195,7 +195,7 @@
                 <p class="total"></p>
             </div>
             <div>
-                <button class="bg-[#D4621A] p-2 rounded-xl w-full">Réserver</button>
+                <button class="bg-[#D4621A] p-2 rounded-xl w-full reserverBtn" type="button">Réserver</button>
             </div>
         </article>
         <article class="border-4 border-[#F4AE52] flex flex-col gap-4 shadow-xl p-4 rounded-xl">
@@ -241,7 +241,7 @@
                 <p class="total"></p>
             </div>
             <div>
-                    <button class="bg-[#D4621A] p-2 rounded-xl w-full">Réserver</button>
+                    <button class="bg-[#D4621A] p-2 rounded-xl w-full reserverBtn" type="button">Réserver</button>
             </div>
         </article>
         <article class="border-4 border-[#F4AE52] flex flex-col gap-4 shadow-xl p-4 rounded-xl">
@@ -287,7 +287,7 @@
                 <p class="total"></p>
             </div>
             <div>
-                    <button class="bg-[#D4621A] p-2 rounded-xl w-full">Réserver</button>
+                    <button class="bg-[#D4621A] p-2 rounded-xl w-full reserverBtn" type="button">Réserver</button>
             </div>
         </article>
         <article class=" border-4 border-[#F4AE52] flex flex-col gap-4 shadow-xl p-4 rounded-xl">
@@ -333,7 +333,7 @@
                 <p class="total"></p>
             </div>
             <div>
-                    <button class="bg-[#D4621A] p-2 rounded-xl w-full">Réserver</button>
+                    <button class="bg-[#D4621A] p-2 rounded-xl w-full reserverBtn" type="button">Réserver</button>
             </div>
         </article>
     </section>
@@ -376,7 +376,7 @@
             <p></p>
         </div>
     </footer>
-    <script src="./src/app.js" defer></script>
+    <script type="module" src="./src/app.js" defer></script>
 </body>
 </html>
 

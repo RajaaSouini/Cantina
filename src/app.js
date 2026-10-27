@@ -5,9 +5,7 @@ import { buttonAjouterRepas,popupform,annuler,main,enregistrer,sectionPlat,input
 import { sauvegarder , charger } from "./utils.js";
 import { ouvrirPopup , fermerPopup } from "./ui.js";
 //=========== appel de cherger localstorage ===============
-charger();
-
-
+charger();         
 export let repasEnModification = null;
 export let articleEnModification = null;
 //================== Le popup ===========================
@@ -51,6 +49,7 @@ function remplirArticle(article, repas) {
 
             sauvegarder();
             remplirSelectPlat();
+            statistique();
             alert('repas supprimé');
         }   
     });
@@ -65,6 +64,11 @@ function remplirArticle(article, repas) {
 export function afficherDernierRepas(repas) {
     const article = document.createElement('article');
     article.classList = "bg-[#FEF3E2] flex flex-col gap-8 border-4 border-[#FEF3E2] rounded-xl";
+
+    if(repas.reserve === true){
+        article.style.opacity = '0.4';
+        article.style.filter ='grayscale(1)';
+    }
     remplirArticle(article, repas);
     sectionPlat.appendChild(article);
 }   
@@ -100,6 +104,9 @@ function ajouterRepas() {
         remplirArticle(articleEnModification, repasEnModification);
         sauvegarder();
         remplirSelectPlat();
+        statistique();
+        fermerPopup();
+        alert('Repas modifié avec success');
     } else {
         const nouveauRepas = {
             nomRepas: inputName.value.trim(),
@@ -112,19 +119,17 @@ function ajouterRepas() {
         afficherDernierRepas(nouveauRepas);
         sauvegarder();
         remplirSelectPlat();
-    }           
-    fermerPopup();
-    alert('Repas ajouté avec succes');
-
+        statistique();
+        fermerPopup();
+        alert('Repas ajouté avec succes');
+    }                                 
 }
 
 enregistrer.addEventListener('click', function (e) {
     e.preventDefault();
     ajouterRepas();
 
-});          
-
-
+});                       
 //===============Modifier repas =================
 function modifierRepas(repas , article){
     repasEnModification = repas;
@@ -139,11 +144,7 @@ function modifierRepas(repas , article){
 
     ouvrirPopup();
 
-}
-
-
-
-
+}                
 //============remplissage des selects ================
 export function remplirSelectPlat(){
     tousLesSelects.forEach(function (select){
@@ -166,8 +167,7 @@ export function remplirSelectPlat(){
     document.querySelectorAll('.total').forEach(function(p){
             totalPrix(p.closest('article'));
         });
-}
-
+}                    
 //============ calcul du total prix ==================
 function totalPrix(article){
     let total = 0;
@@ -178,10 +178,10 @@ function totalPrix(article){
 
     article.querySelector('.total').textContent = total + ' / 50 DH';
     article.dataset.totalActuel = total;
-}
-
+}                   
 //===============check Réserver un jour=================
-let dejaClick = false;
+let joursReserves = JSON.parse(localStorage.getItem('jours')) || [];
+
 for(let i = 0 ; i< btnReserver.length ; i++){
     btnReserver[i].addEventListener('click' , function(){
         const article = btnReserver[i].closest('article');
@@ -202,20 +202,22 @@ for(let i = 0 ; i< btnReserver.length ; i++){
                 if(carte.dataset.nom === platChoisi){
                     carte.style.opacity = '0.4';
                     carte.style.filter ='grayscale(1)';
-                }
-            });
-
+                }               
+            });              
             tableRepas.forEach(function (repas){
-                if(repas.nomRepas === platChoisi){
+                if(repas.nomRepas === platChoisi ){
                     repas.reserve = true;
                 }
-            })
+            }) 
         });
+        if(joursReserves.indexOf(i) === -1){
+            joursReserves.push(i);
+            localStorage.setItem('jours' , JSON.stringify(joursReserves));
+        }
         sauvegarder();
         statistique();
         
-        alert('Réserve avec success prix moins que 50');
-        dejaClick = true;
+        alert('Réserve avec success prix moins que 50');           
     });
 }
 
@@ -224,49 +226,54 @@ tousLesSelects.forEach(function(select){
     select.addEventListener('change', function(){
         totalPrix(select.closest('article'));
     });
-});
-
-
+});                 
 //================ Statistiques =================
 const recet = document.querySelector('#rec');
 const recNbr = document.querySelector('.recNbr');
 const equ = document.querySelector('.equ');
 const jourPret = document.querySelector('.jourPret');
-function statistique (){
-    let nbrRecette = tableRepas.length;
-    recet.textContent = nbrRecette;
+const coutSemaine = document.querySelector('.coutSemaine');
+
+function statistique (){          
+    recet.textContent = tableRepas.length;
     // repas en reserve
-    let count = 0;
+    let tableaReserve = [];
     tableRepas.forEach(function (repas){
-        if(repas.reverse === true){
-            count += 1 ;
+        if(repas.reserve === true){
+            tableaReserve.push(repas);
         }
-    });
-    recNbr.textContent = count + " plat";
+    }) 
+    recNbr.textContent = tableaReserve.length;
+
 
     //menu équilibré
+    let bio = false;
     tableRepas.forEach(function (repas){
-        if(repas.reserve === true && repas.badgeRepas === 'Bio'){
-            equ.textContent = "Equilibré";
-        }else{
-            equ.textContent = "Non équilibré";
+        if(repas.badgeRepas === 'Bio'){
+            bio = true;
         }
     });
+    if(bio === true){
+        equ.textContent = "Equilibré";
+    }else{
+        equ.textContent = "Non équilibré";
+    }
 
     //Jour pret 
-    let conteur = 0 ;
-    for(let i = 0 ; i < btnReserver.length ; i++){
-        if(btnReserver[i].dejaClick === true){
-            conteur += 1 ;
+    jourPret.textContent = joursReserves.length + ' /5';
+    
+    //cout de la semaine
+    let count = 0 ;
+    tableRepas.forEach(function (repas){
+        if(repas.reserve === true){
+            count += Number(repas.priceRepas);
         }
-    }
-    jourPret.textContent = conteur ;
-
-
-
+    });
+    coutSemaine.textContent = count + ' Dh';
 }
 
 statistique();
+
 
 
 

@@ -11,7 +11,7 @@ export const inputPrice = document.querySelector('#prix');
 export const categ = document.querySelector('#categ');
 export const tousLesSelects = document.querySelectorAll('.selectPlat');
 export const btnReserver = document.querySelectorAll('.reserverBtn');
-export const tableRepas = [];
+export const tableRepas = [    ];
 /*
     { nomRepas: "Harira",              priceRepas: "10", categRepas: "Entrée", badgeRepas: "Bio" , reserve : false },
     { nomRepas: "Zaalouk",             priceRepas: "9",  categRepas: "Entrée", badgeRepas: "Vegetarien" , reserve : false},
@@ -25,7 +25,9 @@ export const tableRepas = [];
     { nomRepas: "Pastilla au lait",    priceRepas: "14", categRepas: "Dessert", badgeRepas: "Classique", reserve : false },
     { nomRepas: "Crème caramel",       priceRepas: "9",  categRepas: "Dessert", badgeRepas: "Classique" , reserve : false},
     { nomRepas: "Orange à la cannelle", priceRepas: "8", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false},
-    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false} */
+    { nomRepas: "Sellou",              priceRepas: "12", categRepas: "Dessert", badgeRepas: "Bio" , reserve : false}  */
+
+
 export const nomInc = document.getElementById('nomInc');
 export const prixInc = document.getElementById('prixInc');
 export const regex = /^.{2,}$/; 

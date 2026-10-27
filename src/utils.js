@@ -9,9 +9,10 @@ export function charger(){
     const donnees = localStorage.getItem('repas');
     if(donnees){
         const repasSauvgarder = JSON.parse(donnees);
+
+        
         repasSauvgarder.forEach(function (repas){
-            tableRepas.push(repas);
-            afficherDernierRepas(repas);
+            tableRepas.push(repas);              
         });
     }
     remplirSelectPlat();
